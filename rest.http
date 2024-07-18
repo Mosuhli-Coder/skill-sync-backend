@@ -3,7 +3,7 @@ POST http://localhost:3000/api/auth/signin
 Content-Type: application/json
 
 {
-  "email": "drmosuhli@gmail.com",
+  "email": "drmosuhli22322@gmail.com",
   "password": "2888"
 }
 
@@ -14,25 +14,30 @@ Content-Type: application/json
 {
   "firstName": "Thato",
   "lastName": "Mosuhli",
-  "email": "drmosuhli2@gmail.com",
+  "email": "drmosuhli223422@gmail.com",
   "password": "2888",
   "confirmPassword": "2888"
 }
 
-### GET a product by id
+### GET users details
+GET http://localhost:3000/api/user/list
+
+
+### GET user details by id
 GET http://localhost:3000/products/668fa529f5dc7810e4cd74b8
 
-### Update a product by id
-PATCH  http://localhost:3000/products/668fa529f5dc7810e4cd74b8
+
+### Update a user by id
+PATCH  http://localhost:3000/api/user/update/6699282f228922109cc7633c
 Content-Type: application/json
 
 {
-  "price": 9999
+  "firstName": "Au"
 }
 
 
 ### Delete a product by id
-DELETE  http://localhost:3000/products/668fa529f5dc7810e4cd74b8
+DELETE  http://localhost:3000/api/user/delete/669933a8618b742f94cd56b4
 
 ### 404 route Not Found
 GET http://localhost:3000/abc_xyz
