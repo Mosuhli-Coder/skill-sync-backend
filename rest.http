@@ -1,0 +1,74 @@
+###User login
+POST http://localhost:3000/api/auth/signin
+Content-Type: application/json
+
+{
+  "email": "drmosuhli@gmail.com",
+  "password": "2888"
+}
+
+### Create a user account
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+
+{
+  "firstName": "Thato",
+  "lastName": "Mosuhli",
+  "email": "drmosuhli2@gmail.com",
+  "password": "2888",
+  "confirmPassword": "2888"
+}
+
+### GET a product by id
+GET http://localhost:3000/products/668fa529f5dc7810e4cd74b8
+
+### Update a product by id
+PATCH  http://localhost:3000/products/668fa529f5dc7810e4cd74b8
+Content-Type: application/json
+
+{
+  "price": 9999
+}
+
+
+### Delete a product by id
+DELETE  http://localhost:3000/products/668fa529f5dc7810e4cd74b8
+
+### 404 route Not Found
+GET http://localhost:3000/abc_xyz
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#hrXWgw4Q127uqZJ3
