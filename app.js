@@ -19,7 +19,11 @@ mongoose
   });
 
 const app = express();
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL, // Replace with your actual client URL
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser())
