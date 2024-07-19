@@ -16,6 +16,9 @@ export const updateUser = async (req, res, next) => {
   }
   try {
     if (req.body.password) {
+      if (req.body.password !== req.body.confirmPassword) {
+        return next(errorHandler(401, "Passwords do not match"));
+      }
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
     }
     const updatedUser = await User.findByIdAndUpdate(

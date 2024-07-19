@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "email": "drmosuhli2222@gmail.com",
-  "password": "2888"
+  "password": "28889"
 }
 
 ### Create a user account
@@ -32,7 +32,8 @@ PATCH  http://localhost:3001/api/user/update/6699337e14890f2f296e8b53
 Content-Type: application/json
 
 {
-  "firstName": "Litaba"
+  "password": "28889",
+  "confirmPassword": "28889"
 }
 
 
