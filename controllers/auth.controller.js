@@ -23,10 +23,10 @@ export const signup = async (req, res, next) => {
     await newUser.save();
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
     const { password: pass, ...rest } = newUser._doc;
-    res.cookie("access_token", token, { httpOnly: true }).status(201).json({
-      success: true,
-      rest,
-    });
+    res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(201)
+      .json(rest);
   } catch (error) {
     next(error);
   }
