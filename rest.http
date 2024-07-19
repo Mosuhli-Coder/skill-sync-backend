@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### GET users details
-GET http://localhost:3001/api/user/list
+GET https://skill-sync-africa-api.vercel.app/api/user/list
 
 
 ### GET user details by id
