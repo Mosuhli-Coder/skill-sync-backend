@@ -3,8 +3,8 @@ POST http://localhost:3001/api/auth/signin
 Content-Type: application/json
 
 {
-  "email": "drmosuhli2222@gmail.com",
-  "password": "28889"
+  "email": "drmosuhli4@gmail.com",
+  "password": "1234"
 }
 
 ### Create a user account
@@ -12,11 +12,11 @@ POST http://localhost:3001/api/auth/signup
 Content-Type: application/json
 
 {
-  "firstName": "Au",
+  "firstName": "Mabony",
   "lastName": "Mosuhli",
-  "email": "drmosuhl9779i24227@gmail.com",
-  "password": "123",
-  "confirmPassword": "123"
+  "email": "drmosuhli3@gmail.com",
+  "password": "1234",
+  "confirmPassword": "1234"
 }
 
 ### GET users details
@@ -24,11 +24,11 @@ GET https://skill-sync-africa-api.vercel.app/api/user/list
 
 
 ### GET user details by id
-GET http://localhost:3001/api/user/user-info/6699337e14890f2f296e8b53
+GET http://localhost:3001/api/user/user-info/669cb6870b33297fa9dbea71
 
 
 ### Update a user by id
-PATCH  http://localhost:3001/api/user/update/6699337e14890f2f296e8b53
+PATCH  http://localhost:3001/api/user/update/669cb6870b33297fa9dbea71
 Content-Type: application/json
 
 {
@@ -38,10 +38,54 @@ Content-Type: application/json
 
 
 ### Delete a user by id
-DELETE  http://localhost:3001/api/user/delete/6699337e14890f2f296e8b53
+DELETE  http://localhost:3001/api/user/delete/669cb6870b33297fa9dbea71
 
 ### Sign out a user
 GET http://localhost:3001/api/auth/signout
+
+### create a new user skills
+
+POST http://localhost:3001/api/skills/create/669f708bf49638662696f281
+Content-Type: application/json
+
+{
+  "skillsToTeach": [
+    {
+      "name": "C++",
+      "yearsOfExperience": 5,
+      "level": "Intermediate",
+      "certifications": ["Certification1"],
+      "description": "C++ is a JavaScript library for building user interfaces.",
+      "tools": ["Tool1", "Tool2", "Tool3"],
+      "projects": ["Project1", "Project2"]
+    },
+    {
+      "name": "C#",
+      "yearsOfExperience": 5,
+      "level": "Intermediate",
+      "certifications": ["Certification1"],
+      "description": "C# is a JavaScript runtime built on Chrome's V8 JavaScript engine.",
+      "tools": ["Tool1", "Tool2", "Tool3"],
+      "projects": ["Project1", "Project2"]
+    },
+    {
+      "name": "Java",
+      "yearsOfExperience": 5,
+      "level": "Intermediate",
+      "certifications": ["Certification1"],
+      "description": "Java is a programming language that lets you work quickly and integrate systems more effectively.",
+      "tools": ["Tool1", "Tool2", "Tool3"],
+      "projects": ["Project1", "Project2"]
+    }
+  ],
+  "skillsToLearn": ["React", "Node JS", "JavaScript"]
+}
+
+### Match the user with skills
+
+GET http://localhost:3001/api/skills/match/669f7b68f49638662696f2de
+
+### Get all user skills
 
 
 
