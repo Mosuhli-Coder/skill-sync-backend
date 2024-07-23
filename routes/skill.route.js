@@ -7,5 +7,5 @@ const router = express.Router();
 
 router.post("/create/:id", verifyToken, createSkills);
 // router.get("/list", verifyToken, getSkills);
-router.get("/match/:id", verifyToken, matchSkills);
+router.get("/matches/:id", verifyToken, matchSkills);
 export default router;

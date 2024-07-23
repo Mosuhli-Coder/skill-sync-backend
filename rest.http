@@ -3,7 +3,7 @@ POST http://localhost:3001/api/auth/signin
 Content-Type: application/json
 
 {
-  "email": "drmosuhli4@gmail.com",
+  "email": "drmosuhli@gmail.com",
   "password": "1234"
 }
 
@@ -28,12 +28,11 @@ GET http://localhost:3001/api/user/user-info/669cb6870b33297fa9dbea71
 
 
 ### Update a user by id
-PATCH  http://localhost:3001/api/user/update/669cb6870b33297fa9dbea71
+PATCH  http://localhost:3001/api/user/update/669f7b68f49638662696f2de
 Content-Type: application/json
 
 {
-  "password": "28889",
-  "confirmPassword": "28889"
+  "avatar": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
 }
 
 
@@ -83,7 +82,7 @@ Content-Type: application/json
 
 ### Match the user with skills
 
-GET http://localhost:3001/api/skills/match/669f7b68f49638662696f2de
+GET http://localhost:3001/api/skills/matches/669cb6680b33297fa9dbea6e
 
 ### Get all user skills
 
