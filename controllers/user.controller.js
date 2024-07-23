@@ -54,15 +54,17 @@ export const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
-export const getUserById = async (req, res, next) =>{
-  if(req.user.id === req.params.id){
+export const getUserById = async (req, res, next) => {
+  if (req.user.id === req.params.id) {
     try {
-      const userInfo = await User.find({_id: req.params.id})
-      res.status(200).json(userInfo)
+      const userInfo = await User.findById({ _id: req.params.id });
+
+      const { password: pass, ...rest } = userInfo._doc;
+      res.status(200).json(rest);
     } catch (error) {
-      next(error)
+      next(error);
     }
-  }else{
-    return next(errorHandler(401, 'You can only view your own listing'))
+  } else {
+    return next(errorHandler(401, "You can only view your own listing"));
   }
-}
+};
