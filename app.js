@@ -20,7 +20,7 @@ const devOrigin = ["http://localhost:5173"];
 
 const allowedOrigins =
   process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
-  console.log("allowedOrigins: ", allowedOrigins);
+console.log("allowedOrigins: ", allowedOrigins);
 
 app.use(
   cors({
@@ -29,7 +29,7 @@ app.use(
       if (!origin || allowedOrigins.includes(origin)) {
         console.log("Origin allowed: ", origin);
         callback(null, true);
-      }  else {
+      } else {
         console.log("Blocked by CORS: ", origin);
         callback(new Error("Not allowed by CORS"));
       }
@@ -38,13 +38,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
-// app.use(
-//   cors({
-//     origin: '*',
-//     credentials: true,
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//   })
-// );
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
