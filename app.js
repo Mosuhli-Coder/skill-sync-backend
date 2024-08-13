@@ -15,25 +15,27 @@ import { app, server } from "./socket/socket.js";
 dotenv.config();
 
 // const app = express();
-const allowedOrigins = [
-  'http://localhost:5173', // local development
-  'https://skillsyncafrica.netlify.app', // deployed frontend
-];
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // If you need to allow cookies and other credentials
-}));
+const prodOrigins = [process.env.ORIGIN_1];
+const devOrigin = ["http://localhost:5173"];
+const allowedOrigins =
+  process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (allowedOrigins.includes(origin)) {
+        console.log("Origin allowed: ", allowedOrigins);
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // If you need to allow cookies and other credentials
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
