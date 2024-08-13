@@ -17,29 +17,32 @@ dotenv.config();
 // const app = express();
 const prodOrigins = [process.env.ORIGIN_1];
 const devOrigin = ["http://localhost:5173"];
+
 const allowedOrigins =
   process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (allowedOrigins.includes(origin)) {
-//         console.log("Origin allowed: ", allowedOrigins);
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true, // If you need to allow cookies and other credentials
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//   })
-// );
+
 app.use(
   cors({
-    origin: '*',
+    origin: (origin, callback) => {
+      if (allowedOrigins.includes(origin)) {
+        console.log("Origin allowed: ", allowedOrigins);
+        callback(null, true);
+      } else {
+        console.log("Blocked by CORS: ", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+// app.use(
+//   cors({
+//     origin: '*',
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//   })
+// );
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
