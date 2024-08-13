@@ -5,8 +5,9 @@ import User from "../models/user.model.js";
 export const getUsers = async (req, res, next) => {
   try {
     const users = await User.find();
-    const { password: pass, ...rest } = users._doc;
-    res.status(200).json(rest);
+    // const { password: pass, ...rest } = users._doc;
+    
+    res.status(200).json(users);
   } catch (error) {
     next(error);
   }
@@ -70,3 +71,4 @@ export const getUserById = async (req, res, next) => {
     return next(errorHandler(401, "You can only view your own listing"));
   }
 };
+

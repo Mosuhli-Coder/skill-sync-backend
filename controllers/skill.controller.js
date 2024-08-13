@@ -83,25 +83,63 @@ export const matchSkills = async (req, res, next) => {
     // Find matches based on skills to teach or skills to learn
     const matches = await UserSkills.find({
       userRef: { $ne: req.params.id }, // Exclude the current user
-      $or: [
-        { skillsToTeach: { $elemMatch: { name: { $in: userSkills.skillsToLearn } } } },
-        { skillsToLearn: { $elemMatch: { name: { $in: userSkills.skillsToTeach } } } }
-      ]
+      
     }).populate("userRef", "firstName lastName email avatar");
 
     // Process matches to include the matched skills
-    const processedMatches = matches.map(match => {
-      const matchedTeachSkills = match.skillsToTeach.filter(skillToTeach => userSkills.skillsToLearn.includes(skillToTeach.name));
-      const matchedLearnSkills = match.skillsToLearn.filter(skillToLearn => userSkills.skillsToTeach.includes(skillToLearn.name));
+    // const processedMatches = matches.map(match => {
+    //   const matchedTeachSkills = match.skillsToTeach.filter(skillToTeach => userSkills.skillsToLearn.includes(skillToTeach.name));
+    //   const matchedLearnSkills = match.skillsToLearn.filter(skillToLearn => userSkills.skillsToTeach.includes(skillToLearn.name));
 
-      return {
-        user: match.userRef,
-        matchedTeachSkills,
-        matchedLearnSkills
-      };
-    }).filter(match => match.matchedTeachSkills.length > 0 || match.matchedLearnSkills.length > 0); // Filter out matches with no matched skills
+    //   return {
+    //     user: match.userRef,
+    //     matchedTeachSkills,
+    //     matchedLearnSkills
+    //   };
+    // }).filter(match => match.matchedTeachSkills.length > 0 || match.matchedLearnSkills.length > 0); // Filter out matches with no matched skills
+    
 
-    res.status(200).json(processedMatches);
+    res.status(200).json(matches);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateSkills = async (req, res, next) => {
+  try {
+    const { skillsToTeach, skillsToLearn } = req.body;
+    const userSkills = await UserSkills.findOneAndUpdate(
+      { userRef: req.params.id },
+      { skillsToTeach, skillsToLearn },
+      { new: true }
+    );
+    if (!userSkills) {
+      return next(errorHandler(404, "User skills not found"));
+    }
+    res.status(200).json(userSkills);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteSkills = async (req, res, next) => {
+  try {
+    const userSkills = await UserSkills.findOneAndDelete({ userRef: req.params.id });
+    if (!userSkills) {  
+      return next(errorHandler(404, "User skills not found"));
+    }
+    res.status(200).json({ success: true });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const searchSkillsMatching = async (req, res, next) => {
+  try {
+    const skills = await UserSkills.find({
+      name: { $regex: req.params.name, $options: "i" },
+    });
+    res.status(200).json(skills);
   } catch (error) {
     next(error);
   }

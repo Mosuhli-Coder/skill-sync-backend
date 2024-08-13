@@ -1,26 +1,26 @@
 ###User login
-POST http://localhost:3001/api/auth/signin
+POST https://skill-sync-africa-api.vercel.app/api/auth/signin
 Content-Type: application/json
 
 {
-  "email": "drmosuhli@gmail.com",
+  "email": "drmosuhli1@gmail.com",
   "password": "1234"
 }
 
 ### Create a user account
-POST http://localhost:3001/api/auth/signup
+POST https://skill-sync-africa-api.vercel.app/api/auth/signup
 Content-Type: application/json
 
 {
   "firstName": "Mabony",
   "lastName": "Mosuhli",
-  "email": "drmosuhli3@gmail.com",
+  "email": "drmosuhli40@gmail.com",
   "password": "1234",
   "confirmPassword": "1234"
 }
 
 ### GET users details
-GET https://skill-sync-africa-api.vercel.app/api/user/list
+GET http://localhost:3001/api/user/list
 
 
 ### GET user details by id
@@ -82,9 +82,35 @@ Content-Type: application/json
 
 ### Match the user with skills
 
-GET http://localhost:3001/api/skills/matches/669cb6680b33297fa9dbea6e
+GET http://localhost:3001/api/skills/matches/669cb6870b33297fa9dbea71
 
-### Get all user skills
+### send notifications
+
+POST http://localhost:3001/api/notifications/send/669cb6680b33297fa9dbea6e
+Content-Type: application/json
+{
+  "type": "like",
+  "message": " on hghg fdd on hghg fdd on hghg f dd on hghg fdd fdd "
+}
+
+### get notifications
+
+GET http://localhost:3001/api/notifications/list
+
+
+### get notification By Id
+
+GET http://localhost:3001/api/notifications/list/66a0d63aeda6a3465ca4ecaf
+
+### mark notification as read
+
+PATCH http://localhost:3001/api/notifications/66a0d374918573aa547203d9/read
+Content-Type: application/json
+
+{
+  "message": "Halong with your network"
+}
+### get user's recommendations
 
 
 
