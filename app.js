@@ -20,14 +20,16 @@ const devOrigin = ["http://localhost:5173"];
 
 const allowedOrigins =
   process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
+  console.log("allowedOrigins: ", allowedOrigins);
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (allowedOrigins.includes(origin)) {
-        console.log("Origin allowed: ", allowedOrigins);
+      console.log("Incoming Origin: ", origin);
+      if (!origin || allowedOrigins.includes(origin)) {
+        console.log("Origin allowed: ", origin);
         callback(null, true);
-      } else {
+      }  else {
         console.log("Blocked by CORS: ", origin);
         callback(new Error("Not allowed by CORS"));
       }
