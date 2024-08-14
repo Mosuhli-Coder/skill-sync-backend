@@ -1,5 +1,5 @@
 ###User login
-POST http://localhost:3001/api/auth/signin
+POST https://skill-sync-api-lnub.onrender.com/api/auth/signin
 Content-Type: application/json
 
 {
@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### GET users details
-GET http://localhost:3001/api/user/list
+GET https://skill-sync-api-lnub.onrender.com/api/user/list
 
 
 ### GET user details by id
