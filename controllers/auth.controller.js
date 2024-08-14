@@ -26,8 +26,8 @@ export const signup = async (req, res, next) => {
     res
       .cookie("access_token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-        sameSite: "lax", // Adjust sameSite attribute based on your requirements
+        secure: false, // Use secure cookies in production
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Adjust sameSite attribute based on your requirements
         maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
       })
       .status(201)
@@ -54,8 +54,8 @@ export const signin = async (req, res, next) => {
     res
       .cookie("access_token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-        sameSite: "lax", // Adjust sameSite attribute based on your requirements
+        secure: false, // Use secure cookies in production
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Adjust sameSite attribute based on your requirements
         maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
       })
       .status(200)
