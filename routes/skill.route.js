@@ -5,7 +5,7 @@ import express from "express";
 
 const router = express.Router();
 
-router.post("/create/:id", verifyToken, createSkills);
+router.post("/create/:userId", verifyToken, createSkills);
 // router.get("/list", verifyToken, getSkills);
-router.get("/matches/:id", verifyToken, matchSkills);
+router.get("/matches/:userId", verifyToken, matchSkills);
 export default router;

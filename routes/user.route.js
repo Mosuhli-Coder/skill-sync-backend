@@ -10,8 +10,8 @@ import { verifyToken } from "../utils/verifyUser.js";
 const router = express.Router();
 
 router.get("/list", getUsers);
-router.patch("/update/:id", verifyToken, updateUser);
-router.delete("/delete/:id", verifyToken, deleteUser);
-router.get("/user-info/:id", verifyToken, getUserById);
+router.patch("/update/:userId", verifyToken, updateUser);
+router.delete("/delete/:userId", verifyToken, deleteUser);
+router.get("/user-info/:userId", verifyToken, getUserById);
 
 export default router;
