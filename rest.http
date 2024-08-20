@@ -1,9 +1,9 @@
 ###User login
-POST https://skill-sync-api-lnub.onrender.com/api/auth/signin
+POST http://localhost:3001/api/auth/signin
 Content-Type: application/json
 
 {
-  "email": "drmosuhli1@gmail.com",
+  "email": "drmosuhli@gmail.com",
   "password": "1234"
 }
 
@@ -20,15 +20,15 @@ Content-Type: application/json
 }
 
 ### GET users details
-GET https://skill-sync-api-lnub.onrender.com/api/user/list
+GET http://localhost:3001/api/user/list
 
 
 ### GET user details by id
-GET http://localhost:3001/api/user/user-info/669cb6870b33297fa9dbea71
+GET http://localhost:3001/api/user/user-info/669cb6680b33297fa9dbea6e
 
 
 ### Update a user by id
-PATCH  http://localhost:3001/api/user/update/669f7b68f49638662696f2de
+PATCH  http://localhost:3001/api/user/update/669cb6870b33297fa9dbea71
 Content-Type: application/json
 
 {

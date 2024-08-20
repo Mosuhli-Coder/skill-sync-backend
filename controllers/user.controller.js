@@ -6,14 +6,14 @@ export const getUsers = async (req, res, next) => {
   try {
     const users = await User.find();
     // const { password: pass, ...rest } = users._doc;
-    
+
     res.status(200).json(users);
   } catch (error) {
     next(error);
   }
 };
 export const updateUser = async (req, res, next) => {
-  if (req.user.id !== req.params.id) {
+  if (req.user.userId !== req.params.userId) {
     return next(errorHandler(401, "You can only update your own account"));
   }
   try {
@@ -24,7 +24,7 @@ export const updateUser = async (req, res, next) => {
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
     }
     const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
+      req.params.userId,
       {
         $set: {
           firstName: req.body.firstName,
@@ -46,11 +46,11 @@ export const updateUser = async (req, res, next) => {
 };
 
 export const deleteUser = async (req, res, next) => {
-  if (req.user.id !== req.params.id) {
+  if (req.user.userId !== req.params.userId) {
     return next(errorHandler(401, "You can only delete your own account"));
   }
   try {
-    await User.findByIdAndDelete(req.params.id);
+    await User.findByIdAndDelete(req.params.userId);
     res.clearCookie("access_token");
     res.status(200).json("User has been deleted!");
   } catch (error) {
@@ -58,9 +58,9 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 export const getUserById = async (req, res, next) => {
-  if (req.user.id === req.params.id) {
+  if (req.user.userId === req.params.userId) {
     try {
-      const userInfo = await User.findById({ _id: req.params.id });
+      const userInfo = await User.findById({ _id: req.params.userId });
 
       const { password: pass, ...rest } = userInfo._doc;
       res.status(200).json(rest);
@@ -71,4 +71,3 @@ export const getUserById = async (req, res, next) => {
     return next(errorHandler(401, "You can only view your own listing"));
   }
 };
-

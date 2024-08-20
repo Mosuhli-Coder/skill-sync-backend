@@ -1,7 +1,7 @@
 import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
+import { generateTokens } from "../utils/generateTokens.js";
 
 export const signup = async (req, res, next) => {
   const { lastName, firstName, email, password, confirmPassword } = req.body;
@@ -21,17 +21,15 @@ export const signup = async (req, res, next) => {
   });
   try {
     await newUser.save();
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
     const { password: pass, ...rest } = newUser._doc;
-    res
-      .cookie("access_token", token, {
-        httpOnly: true,
-        secure: false, // Use secure cookies in production
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Adjust sameSite attribute based on your requirements
-        maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
-      })
-      .status(201)
-      .json(rest);
+    const { accessToken, refreshToken } = generateTokens(rest);
+
+    res.status(200).json({
+      success: true,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    });
+    res;
   } catch (error) {
     next(error);
   }
@@ -49,17 +47,15 @@ export const signin = async (req, res, next) => {
     if (!validPassword) {
       return next(errorHandler(401, "Wrong credentials"));
     }
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { password: pass, ...rest } = validUser._doc;
-    res
-      .cookie("access_token", token, {
-        httpOnly: true,
-        secure: false, // Use secure cookies in production
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Adjust sameSite attribute based on your requirements
-        maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
-      })
-      .status(200)
-      .json(rest);
+    // Generate tokens
+    const { accessToken, refreshToken } = generateTokens(rest);
+
+    res.status(200).json({
+      success: true,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    });
   } catch (error) {
     next(error);
   }
