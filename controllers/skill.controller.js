@@ -6,6 +6,9 @@ export const createSkills = async (req, res, next) => {
   if (req.user.userId !== req.params.userId) {
     return next(errorHandler(401, "You can only create your own skills"));
   }
+  if (!req.body.skillsToTeach && !req.body.skillsToLearn) {
+    return next(errorHandler(400, "Skills to teach or learn are required"));
+  }
   try {
     const { skillsToTeach, skillsToLearn } = req.body;
     const userSkills = await UserSkills.findOne({ userRef: req.params.userId });
@@ -20,6 +23,11 @@ export const createSkills = async (req, res, next) => {
       skillsToLearn,
     });
     const savedSkills = await newSkills.save();
+    await User.findByIdAndUpdate(
+      req.params.userId,
+      { userSkills: savedSkills._id },
+      { new: true }
+    );
     res.status(201).json(savedSkills);
   } catch (error) {
     next(error);
@@ -27,83 +35,14 @@ export const createSkills = async (req, res, next) => {
 };
 
 export const getSkills = async (req, res, next) => {
-  if (req.user.userId !== req.params.userId) {
-    return next(errorHandler(401, "You can only get your own skills"));
-  }
   try {
-    const userSkills = await UserSkills.findOne({ userRef: req.params.userId });
+    const userSkills = await UserSkills.find({ userRef: req.user.userId });
     if (!userSkills) {
       return next(
         errorHandler(404, "User skills not found, try creating instead")
       );
     }
     res.status(200).json(userSkills);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// export const matchSkills = async (req, res, next) => {
-//   try {
-//     const userSkills = await UserSkills.findOne({ userRef: req.params.id });
-//     if (!userSkills) {
-//       return next(errorHandler(404, "User skills not found"));
-//     }
-//     if (req.user.id !== req.params.id) {
-//       return next(errorHandler(400, "You can only match with yourself"));
-//     }
-//     // Find matches
-//     const matches = await UserSkills.find({
-//       userRef: { $ne: req.params.id }, // Exclude the current user
-//       skillsToTeach: {
-//         $elemMatch: {
-//           name: { $in: userSkills.skillsToLearn }, // Check if any skill to teach matches skills to learn
-//         },
-//       },
-//     }).populate("userRef", "firstName lastName email, avatar"); // Process matches to include the matched skills
-//     const processedMatches = matches
-//       .map((match) => {
-//         const matchedSkills = match.skillsToTeach.filter((skillToTeach) =>
-//           userSkills.skillsToLearn.includes(skillToTeach.name)
-//         );
-//         return { user: match.userRef, matchedSkills: matchedSkills };
-//       })
-//       .filter((match) => match.matchedSkills.length > 0); // Filter out matches with no matched skills
-//     // return res.json({ success: true, matches: processedMatches });
-//     res.status(200).json(processedMatches);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-export const matchSkills = async (req, res, next) => {
-  try {
-    const userSkills = await UserSkills.findOne({ userRef: req.params.userId });
-    if (!userSkills) {
-      return next(errorHandler(404, "User skills not found"));
-    }
-    if (req.user.userId !== req.params.userId) {
-      return next(errorHandler(400, "You can only match with yourself"));
-    }
-
-    // Find matches based on skills to teach or skills to learn
-    const matches = await UserSkills.find({
-      userRef: { $ne: req.params.userId }, // Exclude the current user
-    }).populate("userRef", "firstName lastName email avatar");
-
-    // Process matches to include the matched skills
-    // const processedMatches = matches.map(match => {
-    //   const matchedTeachSkills = match.skillsToTeach.filter(skillToTeach => userSkills.skillsToLearn.includes(skillToTeach.name));
-    //   const matchedLearnSkills = match.skillsToLearn.filter(skillToLearn => userSkills.skillsToTeach.includes(skillToLearn.name));
-
-    //   return {
-    //     user: match.userRef,
-    //     matchedTeachSkills,
-    //     matchedLearnSkills
-    //   };
-    // }).filter(match => match.matchedTeachSkills.length > 0 || match.matchedLearnSkills.length > 0); // Filter out matches with no matched skills
-
-    res.status(200).json(matches);
   } catch (error) {
     next(error);
   }
@@ -140,12 +79,24 @@ export const deleteSkills = async (req, res, next) => {
   }
 };
 
-export const searchSkillsMatching = async (req, res, next) => {
+
+export const getUsersAndSkills = async (req, res, next) => {
   try {
-    const skills = await UserSkills.find({
-      name: { $regex: req.params.name, $options: "i" },
-    });
-    res.status(200).json(skills);
+    const users = await UserSkills.find({ userRef: { $ne: req.user.userId } })
+      .populate({
+        path: "userSkills",
+        populate: {
+          path: "skillsToTeach.skillsToLearn skillsToLearn.skillsToTeach",
+          model: "UserSkills",
+          select: "name level",
+        },
+        strictPopulate: false,
+      })
+      .populate({
+        path: "userRef",
+        select: "firstName lastName email avatar",
+      });
+    res.status(200).json(users);
   } catch (error) {
     next(error);
   }

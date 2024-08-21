@@ -42,7 +42,7 @@ export const updateUser = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next(error);
-  }
+  } 
 };
 
 export const deleteUser = async (req, res, next) => {
@@ -61,7 +61,7 @@ export const getUserById = async (req, res, next) => {
   if (req.user.userId === req.params.userId) {
     try {
       const userInfo = await User.findById({ _id: req.params.userId });
-
+    
       const { password: pass, ...rest } = userInfo._doc;
       res.status(200).json(rest);
     } catch (error) {
