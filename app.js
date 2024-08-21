@@ -15,13 +15,6 @@ import { app, server } from "./socket/socket.js";
 dotenv.config();
 
 // const app = express();
-const prodOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2];
-const devOrigin = ["http://localhost:5173"];
-
-const allowedOrigins =
-  process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
-console.log("allowedOrigins: ", allowedOrigins);
-
 app.use(cors());
 
 app.use(bodyParser.json());
